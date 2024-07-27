@@ -4,21 +4,21 @@ import { useNavigation } from '@react-navigation/native';
 import { Note } from '../types';
 import { editNote, saveNote } from '../../services/noteService';
 
-export default function SaveNoteButton({id, text}: Note) {
+export default function SaveNoteButton({id, body, title}: Note) {
     const navigation = useNavigation();
 
     const handleSave = async () => {
         try {
-            if (!text){
-                Alert.alert('Cannot save an empty note', 'Please enter text to save.');
+            if (!title || !body){
+                Alert.alert('Missing Fields', 'Please enter both a title and body to save.');
                 return;
             }
 
             if (id){
-                await editNote(id, text);
+                await editNote(id, body, title);
                 Alert.alert('Success', 'Your note has been successfully updated.');
             } else {
-                await saveNote(text);
+                await saveNote(body, title);
                 Alert.alert('Success', 'A new note has been added to your list.');
             }
     

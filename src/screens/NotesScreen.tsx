@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NotesScreenRouteProps } from "../types";
 
@@ -9,7 +9,8 @@ import SaveNoteButton from "../components/SaveNoteButton";
 
 export default function NotesScreen() {
 
-    const [text, setText] = useState(''); // prevText has a value if you are editing the note
+    const [body, setBody] = useState('');
+    const [title, setTitle] = useState('');
 
     const route = useRoute<NotesScreenRouteProps>();
     const navigation = useNavigation();
@@ -20,7 +21,8 @@ export default function NotesScreen() {
             async function fetchNote() {
                 const note = await getNoteById(id!);
                 if (note) {
-                    setText(note.text);
+                    setBody(note.body);
+                    setTitle(note.title);
                 }
             }
             fetchNote();
@@ -31,21 +33,31 @@ export default function NotesScreen() {
         navigation.setOptions({
             headerRight: () => <SaveNoteButton
                 id = {id ?? ''} 
-                text = {text}> 
+                body = {body}
+                title={title}> 
             </SaveNoteButton>
         })
-    }, [id, navigation, text])
+    }, [id, navigation, body, title])
 
-    return ( 
+    return (
         <View style={styles.container}>
-            <TextInput 
+            <TextInput
+                style={styles.titleInput}
+                value={title}
+                onChangeText={setTitle}
+                placeholder="Title"
+                placeholderTextColor="#888"
+                maxLength={50}
+            />
+            <TextInput
                 style={styles.textInput}
-                autoFocus 
-                multiline 
-                value={text} 
-                onChangeText={setText}
+                autoFocus
+                multiline
+                value={body}
+                onChangeText={setBody}
                 placeholder="Type your notes here..."
-                placeholderTextColor="#888"/>
+                placeholderTextColor="#888"
+            />
         </View>
     );
 }
@@ -56,6 +68,16 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#e5cbba',
         justifyContent: 'center',
+    },
+    titleInput: {
+        borderColor: '#000000',
+        borderWidth: 5,
+        borderRadius: 8,
+        padding: 15,
+        fontSize: 20,
+        color: '#000',
+        backgroundColor: '#f6eee3',
+        marginBottom: 10,
     },
     textInput: {
         flex: 1,

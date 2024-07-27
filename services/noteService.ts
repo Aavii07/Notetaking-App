@@ -31,22 +31,22 @@ export async function getNoteById(id: string): Promise<Note | null> {
     }
 }
 
-export async function saveNote(text: string): Promise<void> {
+export async function saveNote(body: string, title: string): Promise<void> {
     try {
         const allNotes = await getAllNotes();
-        allNotes.push({ id: Date.now().toString(), text });
+        allNotes.push({ id: Date.now().toString(), body, title });
         await saveNotesToStorage(allNotes);
     } catch (error) {
         console.error("Failed to save note", error);
     }
 }
 
-export async function editNote(id: string, text: string): Promise<void> {
+export async function editNote(id: string, body: string, title: string): Promise<void> {
     try {
         const allNotes = await getAllNotes();
         const noteIndex = allNotes.findIndex((note) => note.id === id);       
         if (noteIndex !== -1) {
-            allNotes[noteIndex] = { id, text }; 
+            allNotes[noteIndex] = { id, body, title }; 
             await saveNotesToStorage(allNotes);
         } else {
             console.error("No note was found to update");

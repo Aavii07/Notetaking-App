@@ -25,11 +25,11 @@ export default function HomeScreen() {
         <FlatList 
             data={notes}
             keyExtractor={note => note.id}
-            renderItem={({item}) => <NoteItem id={item.id} text={item.text} />}
+            renderItem={({item}) => <NoteItem id={item.id} body={item.body} title={item.title}/>}
             ListEmptyComponent={() => (
                 <View>
                     <Text>
-                        Added Notes Go Here.
+                        New notes will come here.
                     </Text>
                 </View>
             )}

@@ -8,7 +8,8 @@ declare global {
 
 export type Note = {
     id: string;
-    text: string;
+    body: string;
+    title: string;
 }
 
 export type RootStackParamList = {

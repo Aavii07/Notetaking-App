@@ -4,7 +4,7 @@ import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { deleteNote } from "../../services/noteService";
 
-export default function NoteItem({id, text}: Note) {
+export default function NoteItem({id, title}: Note) {
 
     const navigation = useNavigation();
 
@@ -19,7 +19,7 @@ export default function NoteItem({id, text}: Note) {
     return (
         <TouchableOpacity onPress={handleNavigate} style={styles.card}>
             <View style={styles.cardContent}>
-                <Text style={styles.noteText}>{text}</Text>
+                <Text style={styles.noteText}>{title}</Text>
                 <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
                     <Text style={styles.deleteButtonText}>Delete</Text>
                 </TouchableOpacity>
@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     noteText: {
+        flexWrap: 'wrap',
+        marginRight: 80,
         fontSize: 16,
         color: '#333',
     },
