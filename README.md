@@ -2,4 +2,4 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 # Notetaking-App
 
-This is a notetaking app created from scratch using React Native and Typescript and utilizing Async Storage to store all the notes.
+This is a notetaking app created from scratch using React Native and Typescript and utilizing SQLite to store and manage all the notes.

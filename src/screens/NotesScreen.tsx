@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     },
     titleInput: {
         borderColor: '#000000',
-        borderWidth: 5,
+        borderWidth: 2,
         borderRadius: 8,
         padding: 15,
         fontSize: 20,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlignVertical: 'top',
         borderColor: '#000000',
-        borderWidth: 5,
+        borderWidth: 2,
         borderRadius: 8,
         padding: 20,
         fontSize: 16,
