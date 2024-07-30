@@ -3,6 +3,7 @@ import { FlatList, View, Text, StyleSheet } from 'react-native';
 import { Note } from '../types';
 import { getAllNotes } from '../../services/noteService';
 import NoteItem from '../components/NoteItem';
+import AddNoteButton from '../components/AddNoteButton';
 
 export default function HomeScreen() {
     const [notes, setNotes] = useState<Note[]>([]);
@@ -32,6 +33,7 @@ export default function HomeScreen() {
                     </View>
                 )}
             />
+            <AddNoteButton />
         </View>
     );
 }

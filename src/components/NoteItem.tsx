@@ -3,6 +3,7 @@ import { Note } from "../types";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { deleteNote } from "../../services/noteService";
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function NoteItem({id, title}: Note) {
 
@@ -21,7 +22,7 @@ export default function NoteItem({id, title}: Note) {
             <View style={styles.cardContent}>
                 <Text style={styles.noteText}>{title}</Text>
                 <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-                    <Text style={styles.deleteButtonText}>Delete</Text>
+                    <Icon name="trash" size={24} color="#fff" />
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>

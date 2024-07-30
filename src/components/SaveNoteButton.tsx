@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, Pressable, Alert } from 'react-native';
+import { Pressable, Alert, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Note } from '../types';
 import { editNote, saveNote } from '../../services/noteService';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function SaveNoteButton({id, body, title}: Note) {
     const navigation = useNavigation();
@@ -30,10 +31,16 @@ export default function SaveNoteButton({id, body, title}: Note) {
     };
 
     return ( 
-        <Pressable onPress={handleSave}>
-            <Text>
-                Save
-            </Text>
+        <Pressable onPress={handleSave} style={styles.button}>
+            <Icon name="save" size={24} color="black" />
         </Pressable>
     );
 }
+
+const styles = StyleSheet.create({
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 15,
+    },
+});

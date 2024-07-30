@@ -6,23 +6,22 @@ import { RootStackParamList } from './src/types';
 
 import HomeScreen from "./src/screens/HomeScreen";
 import NotesScreen from "./src/screens/NotesScreen";
-import AddNoteButton from "./src/components/AddNoteButton";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{
-          headerTitle: "All Notes",
-          headerRight: () => <AddNoteButton/>
-        }}/>
-        <Stack.Screen name="Notes" component={NotesScreen} options={{
-          headerTitle: "Create a New Note"
-        }}/>
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen 
+          name="Notes" 
+          component={NotesScreen} 
+          options={({ route }) => ({
+            headerTitle: route.params?.id ? 'Edit Note' : 'Create a New Note',
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer> 
   );
