@@ -11,6 +11,7 @@ export default function NotesScreen() {
     const [title, setTitle] = useState('');
     const [history, setHistory] = useState<{ body: string, title: string }[]>([]); // for undo
     const [redoStack, setRedoStack] = useState<{ body: string, title: string }[]>([]); // for redo
+    const [initialState, setInitialState] = useState<{ body: string, title: string } | null>(null); // to track initial state
 
     const route = useRoute<NotesScreenRouteProps>();
     const navigation = useNavigation();
@@ -24,6 +25,9 @@ export default function NotesScreen() {
                     setBody(note.body);
                     setTitle(note.title);
                     setHistory([{ body: note.body, title: note.title }]);
+                    const initial = { body: note.body, title: note.title };
+                    setHistory([initial]);
+                    setInitialState(initial); // store initial state
                 }
             }
             fetchNote();
@@ -65,12 +69,11 @@ export default function NotesScreen() {
             setBody(previousState.body);
             setTitle(previousState.title);
             setHistory(history.slice(0, -1));
-        }
-        if (history.length === 1) {
+        } else if (history.length === 1) {
             setRedoStack(prev => [{ body, title }, ...prev]);
-            setBody('');
-            setTitle('');
-            setHistory([]);
+            setBody(initialState ? initialState.body : '');
+            setTitle(initialState ? initialState.title : '');
+            setHistory(initialState ? [initialState] : []);
         }
     };
 
