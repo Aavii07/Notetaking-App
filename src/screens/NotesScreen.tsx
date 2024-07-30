@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NotesScreenRouteProps } from "../types";
-
 import { getNoteById } from '../../services/noteService';
 import SaveNoteButton from "../components/SaveNoteButton";
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function NotesScreen() {
-
     const [body, setBody] = useState('');
     const [title, setTitle] = useState('');
+    const [history, setHistory] = useState<{ body: string, title: string }[]>([]); // for undo
+    const [redoStack, setRedoStack] = useState<{ body: string, title: string }[]>([]); // for redo
 
     const route = useRoute<NotesScreenRouteProps>();
     const navigation = useNavigation();
@@ -23,28 +23,93 @@ export default function NotesScreen() {
                 if (note) {
                     setBody(note.body);
                     setTitle(note.title);
+                    setHistory([{ body: note.body, title: note.title }]);
                 }
             }
             fetchNote();
         }
     }, [id]);
 
+    const getCurrentTextWords = (text: string) => text.trim().split(/\s+/); // array of words
+
+    const handleBodyChange = (text: string) => {
+        const newWords = getCurrentTextWords(text);
+        const previousWords = getCurrentTextWords(body);
+    
+        if ((previousWords.length !== newWords.length) || newWords.length === 1){
+            setHistory(prev => [...prev, { body: text, title }]);
+            setBody(text);
+            setRedoStack([]);
+        } else {
+            setBody(text);
+        }
+    };
+
+    const handleTitleChange = (text: string) => {
+        const newWords = getCurrentTextWords(text);
+        const previousWords = getCurrentTextWords(title);
+        
+        if (previousWords.length !== newWords.length || newWords.length === 1) {
+            setHistory(prev => [...prev, { body, title: text }]);
+            setTitle(text);
+            setRedoStack([]);
+        } else {
+            setTitle(text);
+        }
+    };
+
+    const undo = () => {
+        if (history.length > 1) {
+            const previousState = history[history.length - 2];
+            setRedoStack(prev => [{ body, title }, ...prev]);
+            setBody(previousState.body);
+            setTitle(previousState.title);
+            setHistory(history.slice(0, -1));
+        }
+        if (history.length === 1) {
+            setRedoStack(prev => [{ body, title }, ...prev]);
+            setBody('');
+            setTitle('');
+            setHistory([]);
+        }
+    };
+
+    const redo = () => {
+        if (redoStack.length > 0) {
+            const nextState = redoStack[0];
+            setHistory(prev => [...prev, nextState]);
+            setBody(nextState.body);
+            setTitle(nextState.title);
+            setRedoStack(redoStack.slice(1));
+        }
+    };
+
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => <SaveNoteButton
-                id = {id ?? ''} 
-                body = {body}
-                title={title}> 
-            </SaveNoteButton>
-        })
-    }, [id, navigation, body, title])
+            headerRight: () => (
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={undo}>
+                        <Icon name="arrow-undo" size={24} color="#000" style={{ marginRight: 15, marginTop: 15 }} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={redo}>
+                        <Icon name="arrow-redo" size={24} color="#000" style={{ marginRight: 15, marginTop: 15  }} />
+                    </TouchableOpacity>
+                    <SaveNoteButton
+                        id={id ?? ''}
+                        body={body}
+                        title={title}
+                    />
+                </View>
+            ),
+        });
+    }, [navigation, body, title, undo, redo]);
 
     return (
         <View style={styles.container}>
             <TextInput
                 style={styles.titleInput}
                 value={title}
-                onChangeText={setTitle}
+                onChangeText={handleTitleChange}
                 placeholder="Title"
                 placeholderTextColor="#888"
                 maxLength={100}
@@ -54,11 +119,10 @@ export default function NotesScreen() {
                 autoFocus
                 multiline
                 value={body}
-                onChangeText={setBody}
+                onChangeText={handleBodyChange}
                 placeholder="Type your notes here..."
                 placeholderTextColor="#888"
             />
-            
         </View>
     );
 }
