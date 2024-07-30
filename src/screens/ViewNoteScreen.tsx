@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { ViewNoteScreenRouteProps } from '../types';
 import { getNoteById } from '../../services/noteService';
+import ZoomableText from '../components/ZoomableText';
 
 export default function ViewNoteScreen() {
     const [note, setNote] = useState<{ body: string; title: string } | null>(null);
@@ -23,8 +24,14 @@ export default function ViewNoteScreen() {
         <View style={styles.container}>
             {note ? (
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    <Text style={styles.title}>{note.title}</Text>
-                    <Text style={styles.body}>{note.body}</Text>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>
+                            {note.title}
+                        </Text>
+                    </View>
+                    <ZoomableText style={styles.body} minFontSize={14} maxFontSize={40} startingFontSize={20}>
+                        {note.body}
+                    </ZoomableText>
                 </ScrollView>
             ) : (
                 <Text style={styles.loadingText}>Loading...</Text>
@@ -36,22 +43,26 @@ export default function ViewNoteScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 15,
         backgroundColor: '#e5cbba',
     },
     scrollContainer: {
         flexGrow: 1,
         justifyContent: 'flex-start',
     },
+    titleContainer: {
+        backgroundColor: '#d4b0a0', 
+        marginBottom: 10,
+    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 10,
         color: '#000',
+        padding: 15,
     },
     body: {
         fontSize: 16,
         color: '#000',
+        padding: 15,
     },
     loadingText: {
         fontSize: 18,

@@ -58,6 +58,7 @@ export default function NotesScreen() {
                 placeholder="Type your notes here..."
                 placeholderTextColor="#888"
             />
+            
         </View>
     );
 }
