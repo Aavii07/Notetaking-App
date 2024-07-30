@@ -1,31 +1,39 @@
-import React from "react";
-import { Note } from "../types";
-import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { deleteNote } from "../../services/noteService";
+import React from 'react';
+import { Note } from '../types';
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { deleteNote } from '../../services/noteService';
 
-export default function NoteItem({id, title}: Note) {
-
+export default function NoteItem({ id, title }: Note) {
     const navigation = useNavigation();
 
     const handleNavigate = () => {
-        navigation.navigate('Notes', { id });
+        navigation.navigate('ViewNote', { id });
     };
 
     const handleDelete = () => {
         deleteNote(id);
     };
 
+    const handleEdit = () => {
+        navigation.navigate('Notes', { id });
+    };
+
     return (
-        <TouchableOpacity onPress={handleNavigate} style={styles.card}>
-            <View style={styles.cardContent}>
-                <Text style={styles.noteText}>{title}</Text>
+        <View style={styles.card}>
+            <TouchableOpacity onPress={handleNavigate} style={styles.cardContent}>
+                <Text style={styles.noteText} numberOfLines={2} ellipsizeMode='tail'>{title}</Text>
+            </TouchableOpacity>
+            <View style={styles.buttonsContainer}>
+                <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
+                    <Icon name="pencil" size={24} color="#fff" />
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
                     <Icon name="trash" size={24} color="#fff" />
                 </TouchableOpacity>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 }
 
@@ -39,27 +47,38 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
         margin: 10,
-    },
-    cardContent: {
-        padding: 16,
+        padding: 10,
         position: 'relative',
     },
-    deleteButton: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        backgroundColor: '#ff4d4d',
-        padding: 8,
-        borderRadius: 4,
+    cardContent: {
+        flex: 1,
+        paddingRight: 125,
     },
-    deleteButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
+    buttonsContainer: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    deleteButton: {
+        marginTop: 10,
+        backgroundColor: 'red',
+        padding: 8,
+        borderRadius: 10,
+        alignSelf: 'flex-end',
+    },
+    editButton: {
+        marginTop: 10,
+        backgroundColor: 'blue',
+        padding: 8,
+        borderRadius: 10,
+        marginRight: 10,
+        alignSelf: 'flex-end',
     },
     noteText: {
-        flexWrap: 'wrap',
-        marginRight: 80,
-        fontSize: 16,
-        color: '#333',
+        fontSize: 26,
+        color: '#000',
+        fontWeight: 'bold', 
     },
 });

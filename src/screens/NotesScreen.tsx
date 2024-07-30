@@ -47,7 +47,7 @@ export default function NotesScreen() {
                 onChangeText={setTitle}
                 placeholder="Title"
                 placeholderTextColor="#888"
-                maxLength={50}
+                maxLength={100}
             />
             <TextInput
                 style={styles.textInput}

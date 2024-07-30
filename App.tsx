@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from './src/types';
 
 import HomeScreen from "./src/screens/HomeScreen";
 import NotesScreen from "./src/screens/NotesScreen";
+import ViewNoteScreen from './src/screens/ViewNoteScreen'; 
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -14,14 +15,15 @@ function App(): React.JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen 
-          name="Notes" 
-          component={NotesScreen} 
-          options={({ route }) => ({
-            headerTitle: route.params?.id ? 'Edit Note' : 'Create a New Note',
-          })}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen 
+            name="Notes" 
+            component={NotesScreen} 
+            options={({ route }) => ({
+              headerTitle: route.params?.id ? 'Edit Note' : 'Create a New Note',
+            })}
+          />
+        <Stack.Screen name="ViewNote" component={ViewNoteScreen} />
       </Stack.Navigator>
     </NavigationContainer> 
   );
