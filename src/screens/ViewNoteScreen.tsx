@@ -28,7 +28,7 @@ export default function ViewNoteScreen() {
                 <TouchableOpacity 
                     style={styles.editButton} 
                     onPress={() => {
-                        navigation.navigate('Notes', { id });
+                        navigation.navigate('Note', { id });
                     }}>
                     <Icon name="pencil" size={24} color="lightgrey" />
                 </TouchableOpacity>

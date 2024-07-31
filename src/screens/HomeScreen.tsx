@@ -32,6 +32,8 @@ export default function HomeScreen() {
                         <Text style={styles.emptyText}>New notes will appear here</Text>
                     </View>
                 )}
+                // so AddNoteButton doesn't get in the way of the bottom-most note's buttons
+                contentContainerStyle={styles.bottomFlatListPadding}
             />
             <AddNoteButton />
         </View>
@@ -60,5 +62,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'black',
         fontWeight: 'bold',
+    },
+    bottomFlatListPadding: {
+        paddingBottom: 80, 
     },
 });

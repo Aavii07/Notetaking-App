@@ -8,7 +8,7 @@ export default function AddNoteButton() {
 
     return (
         <View style={styles.buttonContainer}>
-            <Pressable onPress={() => navigation.navigate("Notes", {id: undefined})} style={styles.button}>
+            <Pressable onPress={() => navigation.navigate("Note", {id: undefined})} style={styles.button}>
                 <Icon name="add" size={30} color="#000" />
             </Pressable>
         </View>

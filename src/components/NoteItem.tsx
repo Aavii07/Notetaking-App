@@ -1,23 +1,45 @@
 import React from 'react';
 import { Note } from '../types';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { deleteNote } from '../../services/noteService';
+import { Modal } from 'react-native';
 
 export default function NoteItem({ id, title }: Note) {
     const navigation = useNavigation();
+    const date = new Date(parseInt(id, 10)); // revert id back into a date
 
     const handleNavigate = () => {
         navigation.navigate('ViewNote', { id });
     };
 
     const handleDelete = () => {
-        deleteNote(id);
+        Alert.alert(
+            'Delete Note',
+            `Are you sure you want to delete "${title}"?`,
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+                {
+                    text: 'OK',
+                    onPress: async () => {
+                        try {
+                            await deleteNote(id);
+                        } catch (error) {
+                            console.error('Failed to delete note', error);
+                        }
+                    }
+                }
+            ],
+            { cancelable: true }
+        );
     };
 
     const handleEdit = () => {
-        navigation.navigate('Notes', { id });
+        navigation.navigate('Note', { id });
     };
 
     return (
@@ -25,6 +47,9 @@ export default function NoteItem({ id, title }: Note) {
             <TouchableOpacity onPress={handleNavigate} style={styles.cardContent}>
                 <Text style={styles.noteText} numberOfLines={2} ellipsizeMode='tail'>{title}</Text>
             </TouchableOpacity>
+            <Text style={{marginTop: 10}}>
+                {date.toString()}
+            </Text>
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
                     <Icon name="pencil" size={24} color="#fff" />

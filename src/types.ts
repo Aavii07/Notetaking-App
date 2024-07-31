@@ -15,10 +15,10 @@ export type Note = {
 
 export type RootStackParamList = {
     Home: undefined;
-    Notes: { id?: string };
+    Note: { id?: string };
     ViewNote: { id: string }
 };
 
-export type NotesScreenRouteProps = RouteProp<RootStackParamList, "Notes">
+export type NoteScreenRouteProps = RouteProp<RootStackParamList, "Note">
 
 export type ViewNoteScreenRouteProps = RouteProp<RootStackParamList, "ViewNote">;

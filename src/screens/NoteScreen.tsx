@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { NotesScreenRouteProps } from "../types";
+import { View, TextInput, StyleSheet, TouchableOpacity, Alert, BackHandler } from 'react-native';
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import { NoteScreenRouteProps } from "../types";
 import { getNoteById } from '../../services/noteService';
 import SaveNoteButton from "../components/SaveNoteButton";
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function NotesScreen() {
+export default function NoteScreen() {
     const [body, setBody] = useState('');
     const [title, setTitle] = useState('');
     const [history, setHistory] = useState<{ body: string, title: string }[]>([]); // for undo
     const [redoStack, setRedoStack] = useState<{ body: string, title: string }[]>([]); // for redo
-    const [initialState, setInitialState] = useState<{ body: string, title: string } | null>(null); // to track initial state
+    const [initialState, setInitialState] = useState<{ body: string, title: string } | null>(null); // to not undo intial state
 
-    const route = useRoute<NotesScreenRouteProps>();
+    const route = useRoute<NoteScreenRouteProps>();
     const navigation = useNavigation();
     const id = route.params.id;
 
@@ -24,53 +24,39 @@ export default function NotesScreen() {
                 if (note) {
                     setBody(note.body);
                     setTitle(note.title);
-                    setHistory([{ body: note.body, title: note.title }]);
                     const initial = { body: note.body, title: note.title };
                     setHistory([initial]);
-                    setInitialState(initial); // store initial state
+                    setInitialState(initial);
                 }
             }
             fetchNote();
         }
     }, [id]);
 
-    const getCurrentTextWords = (text: string) => text.trim().split(/\s+/); // array of words
-
     const handleBodyChange = (text: string) => {
-        const newWords = getCurrentTextWords(text);
-        const previousWords = getCurrentTextWords(body);
-    
-        if ((previousWords.length !== newWords.length) || newWords.length === 1){
-            setHistory(prev => [...prev, { body: text, title }]);
-            setBody(text);
-            setRedoStack([]);
-        } else {
-            setBody(text);
-        }
+        setBody(text);
+        updateHistory({ body: text, title });
     };
 
     const handleTitleChange = (text: string) => {
-        const newWords = getCurrentTextWords(text);
-        const previousWords = getCurrentTextWords(title);
-        
-        if (previousWords.length !== newWords.length || newWords.length === 1) {
-            setHistory(prev => [...prev, { body, title: text }]);
-            setTitle(text);
-            setRedoStack([]);
-        } else {
-            setTitle(text);
-        }
+        setTitle(text);
+        updateHistory({ body, title: text });
+    };
+
+    const updateHistory = (currentState: { body: string, title: string }) => {
+        setHistory(prev => [...prev, currentState]);
+        setRedoStack([]); // clear redo stack when a new change made
     };
 
     const undo = () => {
         if (history.length > 1) {
             const previousState = history[history.length - 2];
-            setRedoStack(prev => [{ body, title }, ...prev]);
+            setRedoStack(prev => [history[history.length - 1], ...prev]);
+            setHistory(prev => prev.slice(0, -1));
             setBody(previousState.body);
             setTitle(previousState.title);
-            setHistory(history.slice(0, -1));
-        } else if (history.length === 1) {
-            setRedoStack(prev => [{ body, title }, ...prev]);
+        } else if (history.length === 1 && body != initialState?.body) {
+            setRedoStack(prev => [history[0], ...prev]);
             setBody(initialState ? initialState.body : '');
             setTitle(initialState ? initialState.title : '');
             setHistory(initialState ? [initialState] : []);
@@ -86,6 +72,38 @@ export default function NotesScreen() {
             setRedoStack(redoStack.slice(1));
         }
     };
+
+    const handleBackPress = () => {
+        Alert.alert(
+            "Discard changes?",
+            "Are you sure you want to quit without saving?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Quit",
+                    onPress: () => navigation.goBack()
+                }
+            ],
+            { cancelable: true }
+        );
+        return true;
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const onBackPress = () => {
+                handleBackPress();
+                return true;
+            };
+
+            BackHandler.addEventListener('hardwareBackPress', onBackPress); // swipe to go back
+
+            return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        }, [navigation, body, title])
+    );
 
     useEffect(() => {
         navigation.setOptions({
@@ -103,6 +121,11 @@ export default function NotesScreen() {
                         title={title}
                     />
                 </View>
+            ),
+            headerLeft: () => (
+                <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
+                    <Icon name="arrow-back" size={24} color="lightgrey" style={styles.headerButton} />
+                </TouchableOpacity>
             ),
         });
     }, [navigation, body, title, undo, redo]);
@@ -161,5 +184,10 @@ const styles = StyleSheet.create({
     headerButton: {
         marginRight: 15, 
         marginTop: 15,
+    },
+    backButton: {
+        marginLeft: 15,
+        marginTop: -16,
+        color: '#FFFFFF',
     },
 });
