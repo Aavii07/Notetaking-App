@@ -28,7 +28,7 @@ When viewing notes, you can use pinch to zoom:
 
 
 
-Works on devices or different proportions as well:
+Works on devices of different proportions as well:
 
 
 <img width="600" alt="writing a new note" src="https://github.com/user-attachments/assets/d5086dd3-bc35-4ee7-8e41-f42cd74711c1">
