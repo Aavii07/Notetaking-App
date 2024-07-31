@@ -44,9 +44,6 @@ importers:
       react-native-gesture-handler:
         specifier: ^2.18.0
         version: 2.18.0(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.2(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.2.0))(react@18.2.0)
-      react-native-modalbox:
-        specifier: ^2.0.2
-        version: 2.0.2
       react-native-reanimated:
         specifier: ^3.14.0
         version: 3.14.0(@babel/core@7.25.2)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.2(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.2.0))(react@18.2.0)
@@ -3239,9 +3236,6 @@ packages:
     peerDependencies:
       react: '*'
       react-native: '*'
-
-  react-native-modalbox@2.0.2:
-    resolution: {integrity: sha512-uSuoZ+siPPNqWGyw8NXhA/Aots7mOx2+qijFoeovequY0kczZEPZDd0ARHbzg+1cE3H3AATJEwGdkVA8lUxs0g==}
 
   react-native-reanimated@3.14.0:
     resolution: {integrity: sha512-TAxLtCfRyC/nOLeWoX/8MhdIF+Fi1e1NbLhIgEm5Kv9/gioAwSNaqLUYxjIClU1RaLwSTE8iaiHNVhTU4TS9DA==}
@@ -8113,10 +8107,6 @@ snapshots:
       prop-types: 15.8.1
       react: 18.2.0
       react-native: 0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.2(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.2.0)
-
-  react-native-modalbox@2.0.2:
-    dependencies:
-      prop-types: 15.8.1
 
   react-native-reanimated@3.14.0(@babel/core@7.25.2)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.25.2(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.2.0))(react@18.2.0):
     dependencies:
