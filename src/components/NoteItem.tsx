@@ -39,7 +39,7 @@ export default function NoteItem({ id, title }: Note) {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: '#EADDCA',
         borderRadius: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },

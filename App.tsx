@@ -14,16 +14,34 @@ function App(): React.JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen 
-            name="Notes" 
-            component={NotesScreen} 
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#4a2c2a',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
+          <Stack.Screen 
+            name="Home" 
+            component={HomeScreen}
+            options={{ headerShown: false }} />
+          <Stack.Screen 
+              name="Notes" 
+              component={NotesScreen} 
+              options={({ route }) => ({
+                headerTitle: route.params?.id ? 'Edit Note' : 'Create a New Note',
+              })}
+            />
+          <Stack.Screen 
+            name="ViewNote" 
+            component={ViewNoteScreen} 
             options={({ route }) => ({
-              headerTitle: route.params?.id ? 'Edit Note' : 'Create a New Note',
+              headerTitle: 'View Note',
             })}
           />
-        <Stack.Screen name="ViewNote" component={ViewNoteScreen} />
       </Stack.Navigator>
     </NavigationContainer> 
   );

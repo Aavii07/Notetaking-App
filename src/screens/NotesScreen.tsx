@@ -92,10 +92,10 @@ export default function NotesScreen() {
             headerRight: () => (
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity onPress={undo}>
-                        <Icon name="arrow-undo" size={24} color="#000" style={{ marginRight: 15, marginTop: 15 }} />
+                        <Icon name="arrow-undo" size={24} color="lightgrey" style={styles.headerButton} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={redo}>
-                        <Icon name="arrow-redo" size={24} color="#000" style={{ marginRight: 15, marginTop: 15  }} />
+                        <Icon name="arrow-redo" size={24} color="lightgrey" style={styles.headerButton} />
                     </TouchableOpacity>
                     <SaveNoteButton
                         id={id ?? ''}
@@ -157,5 +157,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#000',
         backgroundColor: '#f6eee3',
+    },
+    headerButton: {
+        marginRight: 15, 
+        marginTop: 15,
     },
 });

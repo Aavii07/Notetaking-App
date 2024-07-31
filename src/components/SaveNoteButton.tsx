@@ -22,8 +22,8 @@ export default function SaveNoteButton({id, body, title}: Note) {
                 await saveNote(body, title);
                 Alert.alert('Success', 'A new note has been added to your list.');
             }
-    
-            navigation.navigate('Home');
+            
+            navigation.goBack();
         } catch (error) {
             console.error('Error saving note', error);
             Alert.alert('Error', 'Failed to save note.');
@@ -32,7 +32,7 @@ export default function SaveNoteButton({id, body, title}: Note) {
 
     return ( 
         <Pressable onPress={handleSave} style={styles.button}>
-            <Icon name="save" size={24} color="black" />
+            <Icon name="save" size={24} color="lightgrey" />
         </Pressable>
     );
 }

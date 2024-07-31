@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { ViewNoteScreenRouteProps } from '../types';
 import { getNoteById } from '../../services/noteService';
 import ZoomableText from '../components/ZoomableText';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function ViewNoteScreen() {
     const [note, setNote] = useState<{ body: string; title: string } | null>(null);
     const route = useRoute<ViewNoteScreenRouteProps>();
+    const navigation = useNavigation();
     const id = route.params.id;
 
     useEffect(() => {
@@ -19,6 +21,20 @@ export default function ViewNoteScreen() {
         }
         fetchNote();
     }, [id]);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity 
+                    style={styles.editButton} 
+                    onPress={() => {
+                        navigation.navigate('Notes', { id });
+                    }}>
+                    <Icon name="pencil" size={24} color="lightgrey" />
+                </TouchableOpacity>
+            ),
+        });
+    }, [navigation, id]);
 
     return (
         <View style={styles.container}>
@@ -69,5 +85,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 20,
         color: '#888',
+    },
+    editButton: {
+        marginRight: 15,
+    },
+    editButtonText: {
+        fontSize: 16,
+        color: '#007BFF',
     },
 });

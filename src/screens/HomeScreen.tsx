@@ -41,11 +41,11 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f8f8',
+        backgroundColor: '#d5b78b',
         padding: 16,
     },
     header: {
-        fontSize: 24,
+        fontSize: 34,
         fontWeight: 'bold',
         marginBottom: 16,
         textAlign: 'center',
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     },
     emptyText: {
         fontSize: 18,
-        color: '#999',
+        color: 'black',
+        fontWeight: 'bold',
     },
 });
