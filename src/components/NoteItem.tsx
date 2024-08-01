@@ -47,7 +47,7 @@ export default function NoteItem({ id, title }: Note) {
                 <Text style={styles.noteText} numberOfLines={2} ellipsizeMode='tail'>{title}</Text>
             </TouchableOpacity>
             <Text style={styles.date}>
-                {date.toString()}
+                Created on {date.toString()}
             </Text>
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.editButton} onPress={handleEdit}>

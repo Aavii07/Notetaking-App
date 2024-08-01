@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { ViewNoteScreenRouteProps } from '../types';
 import { getNoteById } from '../../services/noteService';
 import ZoomableText from '../components/ZoomableText';
@@ -12,7 +12,7 @@ export default function ViewNoteScreen() {
     const navigation = useNavigation();
     const id = route.params.id;
 
-    useEffect(() => {
+    useFocusEffect(() => {
         async function fetchNote() {
             if (id) {
                 const fetchedNote = await getNoteById(id);
@@ -20,7 +20,7 @@ export default function ViewNoteScreen() {
             }
         }
         fetchNote();
-    }, [id]);
+    });
 
     useEffect(() => {
         navigation.setOptions({
