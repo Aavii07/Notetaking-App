@@ -14,7 +14,7 @@ Here are some sample images that show generally how the app works:
 <img width="300" alt="Home Page with notes" src="https://github.com/user-attachments/assets/5d6fe1dd-fb25-4d4d-8e3e-0184ef994168">
 <img width="300" alt="Delete a Note" src="https://github.com/user-attachments/assets/48282a9e-de2f-4f9c-8a6b-e2a977c9ee11">
 <img width="300" alt="Create a New Note" src="https://github.com/user-attachments/assets/fe0112fb-ce8a-45fe-b823-823cacc34925">
-<img width="300" alt="Validates if new note has body and title" src="https://github.com/user-attachments/assets/a8930aa0-0589-4437-8d90-4715b1367bf9">
+<img width="311" alt="Validates if new note has body and title" src="https://github.com/user-attachments/assets/7f54e6ee-5909-41ab-bb84-92510147b931">
 <img width="300" alt="Edit Note" src="https://github.com/user-attachments/assets/697cfdbb-6541-423f-997d-ed70769c4ada">
 <img width="300" alt="validates leaving edit mode without saving" src="https://github.com/user-attachments/assets/ac5f4fb3-b128-47f4-8abd-9542e2828fdd">
 
