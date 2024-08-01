@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { RootStackParamList } from './src/types';
@@ -32,7 +31,7 @@ function App(): React.JSX.Element {
               name="Note" 
               component={NoteScreen} 
               options={({ route }) => ({
-                headerTitle: route.params?.id ? 'Edit Note' : 'Create a New Note',
+                headerTitle: route.params?.id ? 'Edit Note' : 'Create Note',
               })}
             />
           <Stack.Screen 

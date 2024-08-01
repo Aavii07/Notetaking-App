@@ -4,7 +4,6 @@ import { TouchableOpacity, Text, View, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { deleteNote } from '../../services/noteService';
-import { Modal } from 'react-native';
 
 export default function NoteItem({ id, title }: Note) {
     const navigation = useNavigation();
@@ -47,7 +46,7 @@ export default function NoteItem({ id, title }: Note) {
             <TouchableOpacity onPress={handleNavigate} style={styles.cardContent}>
                 <Text style={styles.noteText} numberOfLines={2} ellipsizeMode='tail'>{title}</Text>
             </TouchableOpacity>
-            <Text style={{marginTop: 10}}>
+            <Text style={styles.date}>
                 {date.toString()}
             </Text>
             <View style={styles.buttonsContainer}>
@@ -79,6 +78,10 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingRight: 125,
     },
+    date: {
+        marginTop: 10,
+        paddingRight: 100,
+    }, 
     buttonsContainer: {
         position: 'absolute',
         bottom: 10,
